@@ -1,0 +1,167 @@
+Atividade: Praticar os comandos SQL de manipulação de dados, utilizando as instruções INSERT, UPDATE e DELETE.
+
+
+Entrega: Para cada item, forneça o comando SQL correspondente que realiza a tarefa solicitada.
+
+
+Instruções:
+Inserção de Dados
+
+a. Insira pelo menos 5 registros na tabela Clientes com dados fictícios.
+
+b. Insira pelo menos 3 registros na tabela Categorias com nomes de categorias de produtos.
+
+c. Insira pelo menos 10 produtos na tabela Produtos, associando-os às categorias apropriadas (utilize CategoriaID).
+
+d. Insira 2 pedidos na tabela Pedidos para clientes existentes, incluindo os itens correspondentes na tabela ItensPedido.
+
+Atualização de Dados
+
+a. Atualize o endereço de um dos clientes na tabela Clientes.
+
+b. Aumente o preço de todos os produtos da categoria "Eletrônicos" em 10%.
+
+c. Atualize o status de um pedido para "Enviado".
+
+Exclusão de Dados
+
+a. Exclua um produto que não está mais disponível em estoque.
+
+b. Exclua todos os pedidos que estão com o status "Cancelado".
+
+c. Exclua um cliente que solicitou a remoção de seus dados (atenção para as chaves estrangeiras e a integridade referencial).
+
+Dicas Adicional:
+
+Para chaves estrangeiras: Ao inserir dados nas tabelas que possuem chaves estrangeiras (por exemplo, Pedidos e ItensPedido), certifique-se de que os IDs referenciados existam nas tabelas primárias.
+
+1a- insert into clientes (Nome, Sobrenome, Email, DataCadastro,Endereco) values
+(),*4
+();
+
+1b- insert into categoria (NomeCategoria) values
+(),*2
+();
+
+1c- insert into produtos (NomeProduto, PrecoUnitario, Estoque, CategoriaID) values
+(),*9
+();
+
+1d- Insert into pedidos (ClientID, DataPedido, Total, Condicao) values
+(),
+();
+
+2a- update clientes set endereco = 'Rua Nova, 100' where ClienteID = 1;
+
+2b- update produtos set preco = preco * 1.1 where CategoriaID = 1;
+
+2c- update pedidos set condicao = 'Enviado' where PedidoID = 1;
+
+3a- DELETE FROM produtos WHERE ProdutoID = 8;
+
+3b (a) - INSERT INTO pedidos (ClienteID, DataPedido, Total, Condicao) VALUES
+(5, '2024-10-17 00:00:00', 499.90, NULL);
+3b - DELETE FROM pedidos WHERE PedidoID = 2;
+--------------------------------------------------------------------------------------------------------------------
+
+Instruções
+Cenário: Com base nas tabelas criadas e populadas anteriormente (Clientes, Categorias, Produtos, Pedidos, ItensPedido), você irá realizar consultas para extrair informações úteis para a empresa, aplicando diferentes técnicas de manipulação de dados.
+
+Entrega: Para cada item, forneça o comando SQL correspondente que realiza a consulta solicitada.
+
+
+Instruções:
+
+Seleção e Filtragem Básica
+
+a. Selecione todos os dados da tabela Clientes.
+
+b. Liste o NomeProduto e o PrecoUnitario de todos os produtos.
+
+c. Selecione todos os clientes que possuem o sobrenome "Silva".
+
+d. Liste os produtos cujo Estoque seja maior que 50 unidades.
+
+Ordenação de Resultados
+
+a. Liste todos os clientes em ordem alfabética pelo Nome.
+
+b. Exiba os produtos ordenados do mais caro para o mais barato.
+
+c. Liste os pedidos ordenados pela DataPedido, do mais recente para o mais antigo.
+
+Uso de Funções e Agrupamento------------------------------------
+
+a. Calcule o total de pedidos feitos por cada cliente, mostrando o ClienteID e o total de pedidos.
+
+b. Encontre o preço médio dos produtos em cada categoria, mostrando o NomeCategoria e o preço médio.
+
+c. Exiba o total de itens vendidos (quantidade) por produto, mostrando o NomeProduto e a quantidade total vendida.
+
+Cláusula HAVING
+
+a. Liste as categorias que possuem mais de 5 produtos cadastrados.
+
+b. Exiba os clientes que já gastaram mais de R$ 1.000,00 em pedidos, mostrando o ClienteID e o valor total gasto.
+
+Junções (JOINs) 6 
+
+a. Liste todos os pedidos, incluindo o nome do cliente que fez cada pedido.
+
+b. Exiba os itens de pedido, mostrando o NomeProduto, Quantidade e PreçoUnitário.
+
+c. Liste todos os produtos junto com suas respectivas categorias, mostrando NomeProduto e NomeCategoria.
+
+Consultas Aninhadas (Subqueries)
+
+a. Encontre os produtos que têm um preço acima da média de todos os produtos.
+
+b. Liste os clientes que ainda não fizeram nenhum pedido.
+
+Funções de String e Data
+
+a. Exiba o nome completo dos clientes (Nome e Sobrenome concatenados).
+
+b. Liste os pedidos feitos no mês atual.
+
+Desafios Adicionais
+
+a. Encontre o produto mais vendido (com maior quantidade total vendida).
+
+b. Liste os 3 clientes que mais fizeram pedidos.
+
+
+Dicas Adicionais:
+
+Utilize alias para renomear colunas ou tabelas para facilitar a leitura das consultas.
+Lembre-se de que funções agregadas como SUM, AVG, MAX, MIN, COUNT são úteis para cálculos em agrupamentos.
+Ao usar JOIN, especifique o tipo de junção conforme necessário (INNER JOIN, LEFT JOIN, etc.).
+Para concatenar strings, em alguns SGBDs você pode usar o operador || ou a função CONCAT.
+crud
+Meu trabalho
+
+1a- SELECT * FROM clientes;
+1b- SELECT NomeProduto, PrecoUnitario FROM produtos;
+1c- SELECT * FROM clientes WHERE sobrenome = 'Silva';
+1d- SELECT * FROM produtos WHERE Estoque >50;
+2a- SELECT * FROM clientes ORDER BY Nome;
+2b- SELECT * FROM produtos ORDER BY PrecoUnitario DESC;
+2c- SELECT * FROM pedidos ORDER BY DataPedido DESC;
+3a- SELECT ClienteID, COUNT(*) AS TotalPedidos FROM pedidos GROUP BY ClienteID;
+3b- SELECT AVG(PrecoUnitario) AS PrecoMedio FROM produtos;
+3c- SELECT p.NomeProduto, SUM(ip.Quantidade) AS TotalVendido FROM itenspedido ip JOIN produtos p ON ip.ProdutoID = p.ProdutoID GROUP BY p.NomeProduto;
+4a- SELECT c.NomeCategoria, COUNT(p.ProdutoID) AS TotalProdutos FROM categoria c JOIN produtos p ON c.CategoriaID = p.CategoriaID GROUP BY c.NomeCategoria HAVING COUNT(p.ProdutoID) > 5;
+4b- SELECT c.ClienteID, SUM(p.Total) AS TotalGasto FROM clientes c JOIN pedidos p ON c.ClienteID = p.ClienteID GROUP BY c.ClienteID HAVING SUM(p.Total) > 1000;
+5a- SELECT p.PedidoID, c.Nome, c.Sobrenome, p.DataPedido, p.Total, p.Condicao FROM pedidos p JOIN clientes c ON p.ClienteID = c.ClienteID;
+5b- SELECT p.NomeProduto, ip.Quantidade, ip.PrecoUnitario FROM itenspedido ip JOIN produtos p ON ip.ProdutoID = p.ProdutoID;
+6a- SELECT nome, sobrenome FROM clientes;
+6b- SELECT * FROM pedidos WHERE MONTH(DataPedido) = MONTH(CURRENT_DATE) AND YEAR(DataPedido) = YEAR(CURRENT_DATE);
+7a- SELECT p.ProdutoID, p.NomeProduto, SUM(ip.Quantidade) AS TotalVendido FROM itenspedido ip JOIN produtos p ON ip.ProdutoID = p.ProdutoID GROUP BY p.ProdutoID, p.NomeProduto ORDER BY TotalVendido DESC LIMIT 1;
+7b- SELECT c.ClienteID, COUNT(p.PedidoID) AS TotalPedidos FROM clientes c JOIN pedidos p ON c.ClienteID = p.ClienteID GROUP BY c.ClienteID ORDER BY TotalPedidos DESC LIMIT 3;
+
+
+
+
+
+299.80 id1 pid 6
+499.90 id2 pid 5

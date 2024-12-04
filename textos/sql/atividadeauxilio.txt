@@ -1,0 +1,16 @@
+INSERT INTO Clientes (Valor1, Valor2, Valor3, Valor4, escrito igual na table) VALUES
+
+('Ana', 'Silva', 'ana.silva@email.com', '2021-02-10', 'Rua das Flores, 123, São Paulo, SP'),
+('Carlos', 'Oliveira', 'carlos.oliveira@email.com', '2021-03-15', 'Avenida Brasil, 456, Rio de Janeiro, RJ'),
+('Mariana', 'Costa', 'mariana.costa@email.com', '2021-04-20', 'Praça da Liberdade, 789, Belo Horizonte, MG'),
+('José', 'Santos', 'jose.santos@email.com', '2021-05-25', 'Rua do Comércio, 101, Curitiba, PR'),
+('Fernanda', 'Lima', 'fernanda.lima@email.com', '2021-06-30', 'Rua da Praia, 202, Porto Alegre, RS');
+
+
+OBS (Não adicionei o ID do cliente por que é auto_incremento),
+
+INSERT INTO Clientes (categoria) VALUES
+
+('Eletrônico'),
+('Eletrodoméstico'),
+('Brinquedo');

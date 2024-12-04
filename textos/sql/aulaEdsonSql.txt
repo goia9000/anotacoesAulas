@@ -1,0 +1,28 @@
+
+# Seleciona todas as colunas de clientes
+select * from clientes
+
+# Seleciona as colunas Nome e ID_Cliente
+select nome, id_cliente from clientes
+
+# Altera o nome de uma coluna da tabela
+ALTER TABLE produtos CHANGE COLUMN descricao detalhes text
+
+#Alterar o tipo da coluna
+alter TABLE clientes MODIFY COLUMN nome VARCHAR(150)
+
+#Adicionar a coluna status na tabela pedidos
+ALTER TABLE pedidos ADD COLUMN STATUS varchar(50) DEFAULT "Pendente";
+
+#Consulta na tabela produtos produtos que tenham pelo menos uma letra "n" "n%"(o segundo "n%" significa que não importa oque haver para frente)
+SELECT * FROM produtos WHERE nome_produto LIKE "%n%";
+
+# O coringa "_" representa um caractere, simulamos a data "ano-mes-dia" para selecionar apenas o elemento do mes 05
+SELECT * FROM clientes WHERE data_nascimento LIKE "____-05-__";
+
+#seleciona todos e duplica a coluna nome alterando para "Nome do Cliente".
+SELECT *, nome as "Nome do Cliente" FROM clientes;
+
+# Seleciona todas as tabelas e multiplica estoque por valor, como um nome da tabela de "Valor Total Estoque" dos produtos.
+SELECT *, (estoque*valor) as "Valor Total Estoque" FROM produtos;
+

@@ -1,0 +1,50 @@
+todos os modelos ficam localizados na página "app/models"
+
+
+colocar as tabelas do model no singular e as tabelas no plural
+
+
+
+SETANDO TABELA VIA CÓDIGO----
+Dentro da pasta models adicionar a linha protected $table = "usuarios"; (serve para indicar o nome correto do arquivo que está no migrations)
+
+Dentro do Terminal digitar o comando "php artisan make:model Pagina" para criar um arquivo de modelo (template de classe de model)
+
+php artisan make:controller SiteController vai criar o controller e sua estrutura de pastas, devemos separar sessões para que fique mais fácil de dar manutenção
+esses controllers ficam localizados dentro da pasta app:http\Controller
+
+dentro desse arquivo adicionamos a função     
+	public function index(){
+        	return view ('home');
+        }
+
+-----------------------------------------------------------
+dentro da pasta "routes" foi removido a linha
+
+	Route::get('/', function () {
+    		return view('home');
+	});
+
+que funcionava apenas sem o controller, substituimos por
+
+Route::get('/', [SiteController::class]);
+
+para adicionar o controller ao arquivo web.php
+
+----------------------------------------------------
+get é o padrão do navegador um endereço público
+post é quando vamos submeter dados de formulário
+put é quando devemos editar um registro já existente
+patch é quando vai editar uma parte de um registro
+delete é para deletar
+--------------------------------------
+
+@yeld("conteudo") é para demarcar dentro do arquivo site.blade.php, dentro da área do conteúdo ele faz com que seja possível criar um template para elementos fixos no site e modificar apenas o conteúdo "principal" da página. 
+Para isso, devemos adicionar dentro do home.blade.php no início do código @extends('layout.site') pega o conteúdo localizado na pasta layout com o o nome site ("layout.site") e unifica ambos
+
+@section('conteudo') também vai no início, serve para indicar a seção que gostaria que fosse colocada no home e ao fim devemos utilizar
+@endsection para finalizar a seção
+
+
+@COMIT implementação do controller do site, layout e models das tabelas
+

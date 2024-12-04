@@ -1,0 +1,23 @@
+pasta migrations tem tabelas
+seeders tem os registros "insert" de teste
+php artisan make:migration create_planos_table
+
+onDelete(cascade) apaga o pai e os filhos que tem vínculo também serão apagados
+
+$table->foreignId('plano_id')->constrained('planos');
+
+
+dentro
+
+commit criação das migrações das tabelas planos tarefas paginas
+
+
+dentro da pasta de origem do arquivo que queremos criar o projeto, devemos executar o seguinte comando no terminal "composer create-project laravel/laravel "nome do projeto""
+
+Para iniciar o composer devemos inserir o comando "composer install" no terminal ele gera uma estrutura de pastas no arquivo
+
+depois utilizamos o comando php artisan key: generate isso irá gerar a app_key do arquivo .env
+
+depois utilizamos o comando php artisan migrate para migrar o banco de dados
+
+

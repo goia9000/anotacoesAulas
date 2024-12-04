@@ -1,0 +1,53 @@
+Hoje faremos um CRUD no controller pelo laragon criaremos a plano e a view de sobre nos
+
+
+Criamos o arquivo planos.blade.php na pas ta view e também o arquivo sobre-nos.blade.php.
+
+--------------------------Dentro do arquivo sobre-nos.blade.php-------------------------
+
+
+Copiamos e colamos o inspecionar elemento do html que tinhamos de template, e dentro do arquivo SiteController.php,
+
+foi adicionado 
+
+
+    public function planos(){
+        return view ('planos');
+    }
+
+    public function sobreNos (){
+        return view('sobre-nos');
+    }
+
+
+adicionamos  dentro do arquivo site.blade.php o mesmo nome da linha de código que foi criado no siteController.php
+
+Foi adicionado no href="{{ route('home') }}
+
+  <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('sobre-nos') }}">Sobre nós</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('planos') }}">Planos</a>
+                    </li>
+                </ul>
+
+funcionaria o href="/" por exemplo para ir para a home, seria estático, dessa maneira acima, está dinâmico, oque possibilita mudar o nome do arquivo web.php "Route::get("/empresa", [SiteController::class, "sobreNos"])-> name('sobre-nos');" como no exemplo de empresa, mudaria o nome do endereço
+
+
+Foi criado dentro de view a pasta admin e dentro da pasta admin foi criada a pasta planos e dentro da pasta planos foram criados os arquivos cadastrar.blade.php, editar.blade.php, index.blade.php e visualizar.blade.php
+
+
+
+dentro do terminal foi adicionado 
+
+php artisan make:controller PlanoController
+
+
+Para resumir:
+
+copiamos o html das pastas cadastrar editar index e visualizar

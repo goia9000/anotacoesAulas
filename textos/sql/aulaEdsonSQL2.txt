@@ -1,0 +1,63 @@
+-- SELECT * FROM clientes WHERE email LIKE "br%";
+
+-- SELECT * FROM produtos WHERE valor > 1999;
+
+-- SELECT *, (estoque * valor) AS "total" FROM produtos;
+
+-- SELECT p.id_pedido, c.nome, p.data_pedido, p.valor_total FROM pedidos p
+-- INNER JOIN clientes c ON p.id_cliente = c.id_cliente; 
+
+-- retorne os nomes dos produtos em Itens do Pedido
+
+
+-- SELECT i.id_pedido, pr.nome_produto, pr.valor FROM itens_do_pedido i
+-- INNER JOIN produtos pr ON i.id_produto = pr.id_produto;
+
+-- Retorne os pedidos com seus itens e nomes do cliente e produtos (id_pedido, nome cliente, nome produto, qtdade pedido, valor do produto)
+
+-- SELECT pe.id_pedido, c.nome, p.nome_produto, i.quantidade, p.valor FROM pedidos pe
+-- INNER JOIN itens_do_pedido i ON pe.id_pedido = i.id_pedido
+-- INNER JOIN produtos p ON i.id_produto = p.id_produto
+-- INNER JOIN clientes c ON pe.id_cliente = c.id_cliente; 
+
+SELECT c.nome, COUNT(p.id_pedido) AS total_pedido FROM clientes c
+INNER JOIN pedidos p ON c.id_cliente = p.id_cliente
+GROUP BY c.id_cliente;
+
+SELECT pr.nome_produto, SUM(ip.quantidade * ip.valor_produto) AS total_vendas FROM itens_do_pedido ip 
+INNER JOIN produtos pr ON ip.id_produto = pr.id_produto
+GROUP BY pr.id_produto;
+
+SELECT *, (estoque * valor) AS "Total em Estoque" FROM produtos;
+
+SELECT *, (valor * 0.90) AS "Valor com desconto" FROM produtos;
+
+SELECT AVG (valor) AS "Valor médio de produtos" FROM produtos;
+
+SELECT SUM(estoque * valor) AS "Valor_Total_de_todo_o_estoque" FROM produtos;
+
+
+
+-----------------------------------------------------------------------------------------------------
+INSERT INTO clientes (nome, email, data_nascimento) VALUES 
+('João Silva', 'joao.silva@example.com', '1988-03-15'),
+('Maria Souza', 'maria.souza@example.com', '1992-06-22'),
+('Carlos Pereira', 'carlos.pereira@example.com', '1988-11-30');
+
+SELECT email FROM clientes WHERE email LIKE '%@example.com';
+
+SELECT nome_produto FROM produtos WHERE nome_produto LIKE 'c%';
+
+SELECT pr.nome_produto, ip.quantidade, (ip.quantidade * pr.valor) AS valor_total FROM itens_do_pedido ip INNER JOIN pedidos p ON p.id_pedido = ip.id_pedido INNER JOIN produtos pr ON pr.id_produto = ip.id_produto; 
+
+UPDATE produtos SET valor = '3200' WHERE valor = '2500';
+
+SELECT nome_produto, estoque AS quantidade_em_estoque, valor, (estoque * valor) AS valor_total_estoque FROM produtos;
+
+DELETE FROM clientes WHERE id_cliente = 7;
+
+SELECT c.data_nascimento FROM clientes c WHERE c.data_nascimento LIKE "1988%";
+
+SELECT AVG(valor) AS "Preço Médio dos Produtos" FROM produtos;
+
+SELECT SUM(estoque * valor) AS valor_total_estoque, SUM(estoque * valor * 1.05) AS "total_imposto5%", SUM(estoque * valor * 1.1) AS "total_imposto10%", SUM(estoque * valor) + SUM(estoque * valor * 1.05) + SUM(estoque * valor * 1.1) AS valor_total_com_impostos FROM produtos;
