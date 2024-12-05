@@ -1,0 +1,200 @@
+Os botões da página planos estavam sem as dependencias, adicionamos ao arquivo site.blade.php localizado na pasta views.admin.layout as dependencias no head, a partir daí os botões vao funcionar.
+
+    <!-- font-awesome biblioteca de icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
+Também adicionamos as dependencias no mesmo arquivo site.blade.php dentro do head, essas novas dependências são:
+
+    <!-- summernote - editor de texto -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css">
+
+    <!-- Corrigir conflito summernote e popover bootstrap -->
+    <style>
+        body .popover {
+            display: none !important;
+        }
+    </style>
+
+também existem essas dependencias no abaixo do footer do arquivo cadastrar para poder rodar todas as dependencias corretamente
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+
+    <!-- Summernote - editor de texto -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/lang/summernote-pt-BR.min.js"></script>
+
+    <!-- JqueryMask - marcara nos campos input -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            //https://summernote.org/deep-dive/ - Personalizar Toolbar
+
+            $('#descricao').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture']]
+                ],
+                lang: 'pt-BR',
+                height: 200, // set editor height
+
+            });
+
+            //https://igorescobar.github.io/jQuery-Mask-Plugin/ - Documentação do Plugin
+
+            $('.valor').mask("#.##0,00", {
+                reverse: true
+            });
+
+        });
+    </script>
+
+Agora vamos validar os formularios com campos obrigatórios, para isso temos acesso ao validation laravel para sabermos quais tipos de validação temos disponíveis no laravel
+
+dentro do arquivo PlanoController localizado na pasta app.http.controllers.PlanoController.php, adicionamos a função
+
+    public function salvarCadastro(Request $request){
+        
+        $request->validate([
+            'titulo'=> 'required|string|max:100',
+            'descricao'=> 'required',
+            'valor'=> 'required|numeric'
+        ]);
+    }
+
+Abaixo dessa função acima, adicionamos a nova variável:
+
+        $plano = new Plano();
+
+------------------------------------------------------------------------------------------------------------------
+
+OBS a linha de baixo quer dizer que o lado esquerdo do = é o banco de dados e manter o mesmo name do banco de dados e do formulário para evitar erros
+
+        $plano = new Plano();
+        $plano->titulo = $request->titulo;
+        $plano->descricao = $request->descricao;
+        $plano->valor = $request->valor;
+        $plano->save();
+
+------------------------------------------------------------------------------------------------------------------
+
+abaixo de $plano*5 temos um return:
+
+        return redirect()->route('planos.index')->with(['Mensagem','Cadastro realizado com sucesso!']);
+
+Adicionamos uma rota dentro do arquivo web.php localizado na pasta routes.web.php a linha
+
+	Route::post("/admin/planos/salvarCadastro", [PlanoController::class,"salvarCadastro"])->name	('planos.salvarCadastro');
+
+dentro do arquivo cadastrar.blade.php localizado em views.admin.planos.cadastrar.blade.php adicionamos ao método que estava com #, substituimos pela rota
+
+action="{{ route('planos.salvarCadastro')}}
+
+também adicionamos uma chave de segurança para evitar sql injector 
+
+
+	@csrf
+
+adicionamos também o @error/@enderror que é uma msg de erro
+
+o código ficou assim no arquivo cadastrar.blade:
+
+                <form action="{{ route('planos.salvarCadastro') }}" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="titulo">Titulo</label>
+                        <input type="titulo" name="titulo" id="titulo" class="form-control" value=""
+                            placeholder="Digite o titulo" autofocus>
+                        <small class="text-danger">Campo Obrigatório.</small>
+
+                        @error('titulo')
+                            <small class="text-danger">{{ message }}</small>
+                        @enderror
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor">Valor</label>
+                        <input type="valor" name='valor' id="valor" class="form-control col-sm-4 valor"
+                            value="" placeholder="Digite o valor">
+                        @error('valor')
+                            <small class="text-danger">{{ message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <textarea name="descricao" id="descricao" class="form-control" rows="5"></textarea>
+                        @error('descricao')
+                        <small class="text-danger">{{message}}</small>
+                    @enderror
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Salvar</button>
+                    <a class="btn btn-light" href="/admin/planos">Cancelar</a>
+                </form>
+
+
+esse comando abaixo é para depurar o código e encontrar por erros
+
+                @if ($error->any())
+                <ul>
+                    @foreach ($errors->all() as $error)
+                     <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+                @endif
+
+no arquivo de rotas web.php foi adicionado à linha rotas
+
+Route::get("/admin/planos/visualizar/{id}", [PlanoController::class, "visualizar"])-> name('planos.visualizar');
+
+/{id}
+
+e na função visualizar do arquivo PlanoController foi adicionado 
+
+    public function visualizar($id)
+    {
+        $plano = Plano::findOrFail($id);
+        return view('admin.planos.visualizar', compact('plano'));
+    }
+
+foi adicionado o ($id)
+	{
+	    $plano = Plano::findOrFail($id);
+	    , compact('plano'));
+	}
+
+
+No arquivo visualizar.blade foi adicionado o {{$plano}}
+
+                <tr>
+                    <th width="180">Título</th>
+                    <td>{{ $plano->titulo }}</td>
+                </tr>
+                <tr>
+                    <th width="100">Valor</th>
+                    <td>{{ $plano->valor }}</td>
+                </tr>
+                <tr>
+                    <th width="100">Descrição</th>
+                    <td>
+                        {{ $plano->descricao }}
+                    </td>
+                </tr>
+
+no arquivo index foi adicionado o caminho do visualizar no href que estava index.html, foi substituido por
+
+
+{{ route('planos.visualizar',['id' =>$plano->id]) }}

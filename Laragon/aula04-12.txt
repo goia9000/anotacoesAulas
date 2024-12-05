@@ -1,0 +1,100 @@
+04/12
+
+Hoje vamos testar o CRUD
+
+no terminal, começaremos pelo insert!
+
+php artisan make:seed planosSeeder <- eesa linha foi adicionada no terminal para adicionar os inserts à tabela planos.
+O comando acima gera um arquivo dentro da pasta seeders!
+
+entro da função do arquivo criado,
+
+    public function run(): void
+    {
+     
+    }
+
+adicionamos dentro das chaves, o comando { DB::table('planos')->insert([]); }
+
+dentro dessa parte "(["Array aqui"]" "," para adicionar mais arrays");"
+
+como no exemplo abaixo:
+
+    public function run(): void
+    {
+        DB::table('planos')->insert(
+	[
+        [   "titulo"=>"Gratuito",
+            "descricao"=>"Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+            "valor"=>0.00
+        ],
+        [
+            "titulo"=>"Premium",
+            "descricao"=>"Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+            "valor"=>29.00
+        ],
+        [
+            "titulo"=>"Gold",
+            "descricao"=>"Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+            "valor"=>50.00
+        ]
+	]);
+    }
+
+para gerar o sql devemos ir no arquivo DatabaseSeeder e apagar o conteudo interno da função:
+
+    public function run(): void {
+        
+    }
+
+e adicionar à função a linha de codigo 
+
+        $this->call([
+        PlanosSeeder::class
+        ]);
+
+dentro da função que removemos
+
+depois que os valores forem inseridos, devemos adicionar ao terminal o comando "php artisan migrate:fresh --seed" esse comando da um refresh na tabela e inclui os seed
+(conferir se as tabelas foram inseridas no banco de dados pelo phpmyadmin)
+
+abriremos o arquivo PlanoController, localizado dentro da pasta app/http/controllers
+
+adicionaremos o caminho 
+
+use App\Models\Plano;
+
+depois na função
+
+    public function index()
+    {
+     "   $planos = Plano::all(); " ( essa linha foi adicionada)
+        return view('admin.planos.index', compact('planos')); (, compact('planos') foi adicionado à linha)
+    }
+Dentro do arquivo index.blade.php que está localizado na pasta views\admin\planos, iremos adicionar o comando @foreach ($planos as $plano) e no final da linha do registro, adicionaremos @endforeach
+
+   			@foreach ($planos as $plano)
+                            
+                        <tr>
+                            <th scope="row">{{ $plano->id }}</th>
+                            <td>{{$plano->titulo}}</td>
+                            <td>R$ {{$plano->valor}}</td>
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-light" href="visualizar.html">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href="editar.html">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a class="btn btn-sm btn-danger" href="index.html">
+                                    <i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+
+                        @endforeach
+
+foi adicionado à esse arquivo os elementos que estão dentro dos {{ }}
+
+{{ $plano->id }}</th>
+                            <td>{{$plano->titulo}}</td>
+                            <td>R$ {{$plano->valor}}</td>
