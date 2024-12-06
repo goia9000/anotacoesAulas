@@ -1,0 +1,61 @@
+Hoje faremos o Editar do CRUD
+
+Adicionamos essa linha no arquivo web.php
+
+Route::get("/admin/planos/editar/{id}", [PlanoController::class, "editar"])-> name('planos.editar');
+
+depois no plano controller 
+
+    public function editar($id)
+    {
+        $plano = Plano::findOrFail($id);
+        return view('admin.planos.editar', compact('plano'));
+    }
+
+foi adicionada a linha da variável $plano "$plano = Plano::findOrFail($id);", também adicionamos o elemento em que estamos buscando ($id) da função editar
+
+agora na view do formulário "editar" localizada em views.admin.planos.editar.php, copiamos e colamos todos os elementos do cadastrar que haviamos feito ontem e colamos alterando os elementos necessários.
+
+no plano controller foi criado essa função
+
+    public function editarCadastro(Request $request, $id){
+        
+    }
+
+Adicionamos à rota do web.php
+
+Route::put("/admin/planos/editarCadastro/{id}", [PlanoController::class, "editarCadastro"])-> name('planos.editarCadastro');
+
+epois no plano controller copiamos e colamos e alteramos alguns detalhes
+
+        $request->validate([
+            'titulo'=> 'required|string|max:100',
+            'descricao'=> 'required',
+            'valor'=> 'required|numeric'
+        ]);
+
+        $plano = new Plano();
+        $plano->titulo = $request->titulo;
+        $plano->descricao = $request->descricao;
+        $plano->valor = $request->valor;
+        $plano->save();
+
+        return redirect()->route('planos.index')->with(['Mensagem','Cadastro realizado com sucesso!']);
+    }
+
+para isso
+
+        $request->validate([
+            'titulo'=> 'required|string|max:100',
+            'descricao'=> 'required',
+            'valor'=> 'required|numeric'
+        ]);
+
+        $plano = Plano::findOrFail($id);
+        $plano->titulo = $request->titulo;
+        $plano->descricao = $request->descricao;
+        $plano->valor = $request->valor;
+        $plano->save();
+
+        return redirect()->route('planos.index')->with(['Mensagem','Cadastro editado com sucesso!']);
+    }
