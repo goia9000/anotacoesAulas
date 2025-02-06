@@ -1,0 +1,29 @@
+Flutter create "nome do projeto" Esse comando cria um novo projeto em flutter,
+
+estamos utilizando a versão 3.24.5 do flutter, para abrir o emulador, devemos abrir o vscode, e no canto inferior direito selecionamos o dispositivo para conectar.
+Vamos conectar no dispositivo "pixel 6 pro api 34"
+
+Precisamos da extensão do flutter instalada.
+
+Para verificar se está rodando, devemos apertar no botão de "play com inseto" no vscode ou o atalho f5 para dar o build no projeto
+
+Clicando nos 3 pontos do emulador e depois indo em configurações, é possível colocar ele sempre na frente com a opção emulator aways on top
+
+Primeiro passo devemos importar as dependências
+
+import "package:flutter/material.dart";
+
+função void é uma função que executa oque você pediu mas não retorna um valor
+
+void main(List<String> args) {
+  
+}
+
+temos dois tipos de tela, Stateless e stateful, a less é uma tela estática que não muda e não utiliza variáveis
+já a ful é com variáveis, não é um conteúdo estático.
+Ele funcionaria normalmente caso você crie ao contrário, porém, causará mais travamentos no aplicativo
+
+No statefull, fica verificando alterações de estado, consome mais processamento mas é possível.
+
+isso não causa alterações para aplicativos pequenos, aplicativos maiores, pode dar mais lag
+
